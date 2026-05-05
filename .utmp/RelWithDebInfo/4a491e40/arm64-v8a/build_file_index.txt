@@ -1,0 +1,2 @@
+C:\Users\delas\Documents\Gaming Campus\Unity\Infinite Runner 2\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\cpp\CMakeLists.txt
+C:\Users\delas\Documents\Gaming Campus\Unity\Infinite Runner 2\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\cpp\GameActivity\CMakeLists.txt

@@ -1,0 +1,113 @@
+using JetBrains.Annotations;
+using UnityEngine;
+
+public class PlayerController : MonoBehaviour
+{
+    //[SerializeField] private GameObject trailWave;
+    [SerializeField] private GameObject prefabToPlayer;
+    [SerializeField] private GameObject Wave1;
+    [SerializeField] private GameObject Wave2;
+    [SerializeField] private GameObject Wave3;
+    private int actualColorIndex1 = 0;
+    private int actualColorIndex2 = 0;
+    private int actualColorIndex3 = 0;
+    private GameManager gameManager;
+    public GameObject sphere1;
+    public GameObject sphere2;
+    public GameObject sphere3;
+
+    private void Start()
+    {
+        //trailWave.SetActive(true);
+        gameManager = GameManager.Instance;
+        sphere1 = Instantiate(prefabToPlayer, Wave1.transform.position, Quaternion.identity);
+        sphere1.GetComponent<SphereController>().lane = 0;
+        sphere2 = Instantiate(prefabToPlayer, Wave2.transform.position, Quaternion.identity);
+        sphere2.GetComponent<SphereController>().lane = 1;
+        sphere3 = Instantiate(prefabToPlayer, Wave3.transform.position, Quaternion.identity);
+        sphere3.GetComponent<SphereController>().lane = 2;
+        sphere1.transform.SetParent(Wave1.transform);
+        sphere2.transform.SetParent(Wave2.transform);
+        sphere3.transform.SetParent(Wave3.transform);
+        sphere1.GetComponent<Renderer>().material = gameManager.materialsWave[0];
+        sphere2.GetComponent<Renderer>().material = gameManager.materialsWave[0];
+        sphere3.GetComponent<Renderer>().material = gameManager.materialsWave[0];
+
+        if (!Wave2.activeSelf) sphere2.SetActive(false);
+        if (!Wave3.activeSelf) sphere3.SetActive(false);
+    }
+
+    private void Update()
+    {
+        int activeSpheres = 0;
+        if (sphere1 != null && sphere1.activeSelf) activeSpheres++;
+        if (sphere2 != null && sphere2.activeSelf) activeSpheres++;
+        if (sphere3 != null && sphere3.activeSelf) activeSpheres++;
+
+        if (activeSpheres == 0)
+        {
+            gameManager.GameOverScene();
+            enabled = false;
+        }
+
+        if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.Keypad2))
+        {
+            ChangeSphereColor(1);
+        }
+
+        if (Input.GetKeyDown(KeyCode.E) || Input.GetKeyDown(KeyCode.Keypad3))
+        {
+            ChangeSphereColor(2);
+        }
+
+        if (Input.GetKeyDown(KeyCode.Q) || Input.GetKeyDown(KeyCode.Keypad1))
+        {
+            ChangeSphereColor(3);
+        }
+    }
+
+    public void ChangeSphereColor(int sphereIndex)
+    {
+        switch (sphereIndex)
+        {
+            case 1: // Sphere1 (W / Pavé 2)
+                actualColorIndex1++;
+                if (actualColorIndex1 >= gameManager.materialsWave.Length)
+                {
+                    actualColorIndex1 = 0;
+                }
+                if (sphere1 != null)
+                {
+                    sphere1.GetComponent<Renderer>().material = gameManager.materialsWave[actualColorIndex1];
+                }
+                break;
+
+            case 2: // Sphere2 (E / Pavé 3)
+                actualColorIndex2++;
+                if (actualColorIndex2 >= gameManager.materialsWave.Length)
+                {
+                    actualColorIndex2 = 0;
+                }
+                if (sphere2 != null)
+                {
+                    sphere2.GetComponent<Renderer>().material = gameManager.materialsWave[actualColorIndex2];
+                }
+                break;
+
+            case 3: // Sphere3 (Q / Pavé 1)
+                actualColorIndex3++;
+                if (actualColorIndex3 >= gameManager.materialsWave.Length)
+                {
+                    actualColorIndex3 = 0;
+                }
+                if (sphere3 != null)
+                {
+                    sphere3.GetComponent<Renderer>().material = gameManager.materialsWave[actualColorIndex3];
+                }
+                break;
+        }
+
+
+
+    }
+}
