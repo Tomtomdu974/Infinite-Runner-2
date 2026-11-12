@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class ActiveGround : MonoBehaviour
+public class ActiveGrounds : MonoBehaviour
 {
 
     [SerializeField] private IntEventChannelSO updateTransistorChannel;
